@@ -27,7 +27,7 @@ static void handle_syscall(trapframe *tf) {
   // because when syscall tf->epc points to the address that our computer will jump to after the trap handling.
   // how return value is returned to user app?
   // return value is in a0 register. in func return_to_user, a0 is assigned to t6, which will be restore as a0 
-  do_syscall(tf->regs.a0, tf->regs.a1, tf->regs.a2, tf->regs.a3, tf->regs.a4, tf->regs.a5, tf->regs.a6, tf->regs.a7);
+  tf->regs.a0 = do_syscall(tf->regs.a0, tf->regs.a1, tf->regs.a2, tf->regs.a3, tf->regs.a4, tf->regs.a5, tf->regs.a6, tf->regs.a7);
   
 }
 
