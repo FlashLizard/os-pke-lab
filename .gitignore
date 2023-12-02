@@ -10,3 +10,4 @@ obj/
 .VSCodeCounter/
 .vscode/
 pke_out.txt
+user/riscv-pke.code-workspace
