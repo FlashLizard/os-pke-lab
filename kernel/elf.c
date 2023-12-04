@@ -3,6 +3,7 @@
  * into the (emulated) memory.
  */
 
+#include "process.h"
 #include "elf.h"
 #include "string.h"
 #include "riscv.h"
@@ -75,11 +76,6 @@ elf_status elf_load(elf_ctx *ctx) {
   return EL_OK;
 }
 
-typedef union {
-  uint64 buf[MAX_CMDLINE_ARGS];
-  char *argv[MAX_CMDLINE_ARGS];
-} arg_buf;
-
 //
 // returns the number (should be 1) of string(s) after PKE kernel in command line.
 // and store the string(s) in arg_bug_msg.
@@ -132,6 +128,7 @@ void load_bincode_from_host_elf(process *p) {
 
   // entry (virtual, also physical in lab1_x) address
   p->trapframe->epc = elfloader.ehdr.entry;
+  memcpy(p->file_name, arg_bug_msg.argv[0], strlen(arg_bug_msg.argv[0]) + 1);
 
   // close the host spike file
   spike_file_close( info.f );

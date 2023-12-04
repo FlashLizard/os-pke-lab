@@ -40,6 +40,11 @@ typedef struct elf_prog_header_t {
 #define ELF_MAGIC 0x464C457FU  // "\x7FELF" in little endian
 #define ELF_PROG_LOAD 1
 
+typedef union {
+  uint64 buf[MAX_CMDLINE_ARGS];
+  char *argv[MAX_CMDLINE_ARGS];
+} arg_buf;
+
 typedef enum elf_status_t {
   EL_OK = 0,
 
