@@ -42,6 +42,14 @@ enum segment_type {
   DATA_SEGMENT,    // ELF segment
 };
 
+enum block_event_type {
+  WAIT_FOR_CHILD_PROC = 0,
+};
+
+typedef union {
+  int64 cpid; // pid of waited child process
+} block_event_arg_t;
+
 // the VM regions mapped to a user process
 typedef struct mapped_region {
   uint64 va;       // mapped virtual address
@@ -89,6 +97,9 @@ typedef struct process_t {
 
   // accounting. added @lab3_3
   int tick_count;
+  
+  int block_event;
+  block_event_arg_t block_event_arg;
 }process;
 
 // switch to run user app
@@ -98,6 +109,7 @@ void switch_to(process*);
 void init_proc_pool();
 // allocate an empty process, init its vm space. returns its pid
 process* alloc_process();
+int recovery_process(process* proc);
 // reclaim a process, destruct its vm space and free physical pages.
 int free_process( process* proc );
 // fork a child from parent
@@ -105,5 +117,8 @@ int do_fork(process* parent);
 
 // current running process
 extern process* current;
+
+// process pool
+extern process procs[NPROC];
 
 #endif
