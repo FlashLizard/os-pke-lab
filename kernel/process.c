@@ -215,7 +215,7 @@ int do_fork(process *parent)
              (void *)lookup_pa(parent->pagetable, parent->mapped_info[i].va), PGSIZE);
       user_vm_map((pagetable_t)child->pagetable, parent->mapped_info[i].va, PGSIZE, (uint64)child_pa,
                   prot_to_type(PROT_WRITE | PROT_READ, 1));
-      //sprint("in fork. map data segment 0x%lx to 0x%lx\n", parent->mapped_info[i].va, child_pa);
+      // sprint("in fork. map data segment 0x%lx to 0x%lx\n", parent->mapped_info[i].va, child_pa);
       child->mapped_info[i] = parent->mapped_info[i];
       child->total_mapped_region++;
       break;
@@ -255,6 +255,7 @@ int do_fork(process *parent)
       break;
     }
     case CODE_SEGMENT:
+    {
       // TODO (lab3_1): implment the mapping of child code segment to parent's
       // code segment.
       // hint: the virtual address mapping of code segment is tracked in mapped_info
@@ -276,6 +277,7 @@ int do_fork(process *parent)
       child->mapped_info[child->total_mapped_region].seg_type = CODE_SEGMENT;
       child->total_mapped_region++;
       break;
+    }
     }
   }
 
