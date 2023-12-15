@@ -107,6 +107,9 @@ int free_process( process* proc );
 // fork a child from parent
 int do_fork(process* parent);
 
+int get_path(struct dentry* den, char *path);
+int change_path_to_absolute(process *proc, char *ori_path, char *out_path);
+
 // current running process
 extern process* current;
 
